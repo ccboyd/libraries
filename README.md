@@ -51,6 +51,9 @@ end
 
 local modules = {
 	npc = "https://raw.githubusercontent.com/redpawed/libraries/main/npc.lua",
+	fione = "https://raw.githubusercontent.com/redpawed/libraries/main/fione.lua",
+	yueliang = "https://raw.githubusercontent.com/redpawed/libraries/main/yueliang.lua",
+	loadstring = "https://raw.githubusercontent.com/redpawed/libraries/main/loadstring.lua",
 }
 
 local player = owner
