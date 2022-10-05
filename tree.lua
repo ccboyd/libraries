@@ -110,8 +110,10 @@ function branch (root, minimumAmount, maximumAmount, copy_, t, hasleaves)
 end
 
 function tree.grow (class, parts, hasleaves)
-	class = class:lower()
-	
+	if typeof(class) == "string" then
+		class = class:lower()
+	end
+
 	if class == "small" or class == 0 then
 		for _, root in pairs(parts) do
 			local sprout = branch(root, 6, 8, false, {3, 7}, hasleaves)
