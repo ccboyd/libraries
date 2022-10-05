@@ -1,5 +1,5 @@
-# libraries
-this repository is a collection and list of libraries i've either written or decided to collect. libraries will primarily be made for luau.
+# modules
+this repository is a collection and list of libraries and modules i've either written or decided to collect. libraries will primarily be made for luau.
 
 # function
 luau libraries can be fetched with roblox's http library and the loadstring method.
