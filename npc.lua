@@ -15,9 +15,9 @@ function npclib.getrandom (parent, rigtype, conditions)
 	local character
 	local name
 	local id
-	
+
 	local errors = {}
-	
+
 	local suc, er = pcall(function()
 		if not conditions then
 			id = math.random(10000000, 1000000000)
@@ -29,21 +29,21 @@ function npclib.getrandom (parent, rigtype, conditions)
 		character = players:CreateHumanoidModelFromDescription(description, rigtype)
 		name = players:GetNameFromUserIdAsync(id)
 	end)
-	
+
 	if suc then
 		character.Name = name
 		character:PivotTo(CFrame.new(0, 30, 0))
-		
+
 		character:WaitForChild"Humanoid"
 		character:WaitForChild"HumanoidRootPart"
-		
+
 		character.Humanoid.DisplayName = name
 		character.Parent = parent
-		
+
 		if animationcode then
 			NS(animationcode, character)
 		end
-		
+
 		return character, id, #errors
 	else table.insert(errors, er)
 		return npclib.getrandom(parent, rigtype, conditions), id, #errors
@@ -53,22 +53,26 @@ end
 function npclib.fetch (info, rigtype, parent)
 	local description
 	local character
-	local name = players:GetNameFromUserIdAsync(info)
+	local name
 	
+	pcall(function()
+		name = players:GetNameFromUserIdAsync(info)
+	end)
+
 	if name then
 		description = players:GetHumanoidDescriptionFromUserId(info)
 	else
 		local id = players:GetUserIdFromNameAsync(info)
 		description = players:GetHumanoidDescriptionFromUserId(id)
 	end
-	
+
 	character = players:CreateHumanoidModelFromDescription(description, rigtype)
-	
+
 	character.Name = name
 
 	character:WaitForChild"Humanoid"
 	character:WaitForChild"HumanoidRootPart"
-	
+
 	character:PivotTo(CFrame.new(0, 30, 0))
 	character.Humanoid.DisplayName = name
 	character.Parent = parent
@@ -76,7 +80,7 @@ function npclib.fetch (info, rigtype, parent)
 	if animationcode then
 		NS(animationcode, character)
 	end
-	
+
 	return character
 end
 
