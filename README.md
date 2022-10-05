@@ -14,6 +14,7 @@ end
 ```
 
 # script
+```lua
 function getlib (link)
 	local http = game:GetService"HttpService"
 	local lib = loadstring(http:GetAsync(link))()
