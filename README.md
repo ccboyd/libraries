@@ -14,9 +14,6 @@ end
 ```
 
 # script
-script made for importing listed modules directly into the global table `_G`
-
-```lua
 function getlib (link)
 	local http = game:GetService"HttpService"
 	local lib = loadstring(http:GetAsync(link))()
@@ -25,7 +22,12 @@ function getlib (link)
 end
 
 function removepadding (str)
-	local pat = " *(.*)"
+	local pat = " *(.*)" --[[
+        using " *" gets any amount of spaces in a string,
+        however putting this at the start and end of a string
+        can sometimes have trouble removing the end spaces.
+        so it's better to just reverse and use the pattern twice.
+    ]]
 	return str:match(pat):reverse():match(pat):reverse()
 end
 
@@ -35,13 +37,6 @@ function getargs (str)
 
 	--// removing spacesg
 	for i, arg in pairs(comma) do
-		local pat = " *(.*)" --[[
-			using " *" gets any amount of spaces in a string,
-			however putting this at the start and end of a string
-			can sometimes have trouble removing the end spaces.
-			so it's better to just reverse and use the pattern twice.
-		]]
-
 		comma[i] = removepadding(arg)
 	end
 
@@ -69,8 +64,12 @@ player.Chatted:Connect(function(message)
 
 			for _, keyp in getargs(read) do
 				if modules[keyp] then
-					print("imported " .. keyp)
-					_G[keyp] = getlib(modules[keyp])
+					if not _G[keyp] then
+                        _G[keyp] = getlib(modules[keyp])
+                        print("imported " .. keyp)
+                    else
+                        warn(keyp .. " already exists")
+                    end
 				else
 					warn("no such module as " .. keyp)
 				end
