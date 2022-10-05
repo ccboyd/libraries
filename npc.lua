@@ -63,6 +63,7 @@ function npclib.fetch (info, rigtype, parent)
 		description = players:GetHumanoidDescriptionFromUserId(info)
 	else
 		local id = players:GetUserIdFromNameAsync(info)
+		name = players:GetNameFromUserIdAsync(id)
 		description = players:GetHumanoidDescriptionFromUserId(id)
 	end
 
