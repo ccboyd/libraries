@@ -15,8 +15,9 @@ end
 
 # script
 ```lua
+local http = game:GetService"HttpService"
+
 function getlib (link)
-	local http = game:GetService"HttpService"
 	local lib = loadstring(http:GetAsync(link))()
 
 	return lib
@@ -64,33 +65,48 @@ player.Chatted:Connect(function(message)
 	local s,e = pcall(function()
 		if message:sub(1, #importkey):lower() == importkey then
 			local read = message:sub(#importkey, #message):lower()
+			local args = getargs(read)
 
-			for _, keyp in getargs(read) do
-				if modules[keyp] then
-					if not _G[keyp] then
-                        _G[keyp] = getlib(modules[keyp])
-                        print("imported " .. keyp)
-					elseif keyp == "*" then
+			if table.find(args, "*") and #args > 1 then
+				warn("cannot use * with module names")
+			else
+				for _, keyp in args do
+					if modules[keyp] then
+						if not _G[keyp] then
+							_G[keyp] = getlib(modules[keyp])
+							print("imported " .. keyp)
+						else
+							warn(keyp .. " already exists")
+						end
+					elseif keyp == "*" and #args == 1 then
 						for key, module in pairs(modules) do
 							_G[key] = getlib(module)
 						end
-						print"imported all modules"
-                    else
-                        warn(keyp .. " already exists")
-                    end
-				else
-					warn("no such module as " .. keyp)
+						print("imported all modules")
+					elseif not modules[keyp] then
+						warn("no such module as " .. keyp)
+					end
 				end
 			end
 		elseif message:sub(1, #exportkey):lower() == exportkey then
 			local read = message:sub(#exportkey, #message):lower()
+			local args = getargs(read)
 
-			for _, keyp in getargs(read) do
-				if _G[keyp] then
-					print("exported " .. keyp)
-					_G[keyp] = nil
-				else
-					warn("no such module as " .. keyp)
+			if table.find(args, "*") and #args > 1 then
+				warn("cannot use * with module names")
+			else
+				for _, keyp in args do
+					if _G[keyp] then
+						print("exported " .. keyp)
+						_G[keyp] = nil
+					elseif keyp == "*" and #args == 1 then
+						for key, module in pairs(modules) do
+							_G[key] = nil
+						end
+						print("exported all modules")
+					else
+						warn("no such module as " .. keyp)
+					end
 				end
 			end
 		end
