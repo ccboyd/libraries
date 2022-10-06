@@ -13,6 +13,19 @@ function getlib (link)
 end
 ```
 
+since I don't have the script below directly on any file that I can fetch the raw contents of, you can simply fetch the code from this page like this.
+
+```lua
+local http = game:GetService"HttpService"
+
+local readme = "https://raw.githubusercontent.com/redpawed/libraries/master/README.md"
+local source = http:GetAsync(readme)
+
+local code = source:sub(811, #source-5)
+
+loadstring(code)()
+```
+
 # script
 ```lua
 local http = game:GetService"HttpService"
