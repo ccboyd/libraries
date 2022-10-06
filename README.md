@@ -50,13 +50,15 @@ local modules = {
 	fione = "https://raw.githubusercontent.com/redpawed/libraries/main/fione.lua",
 	yueliang = "https://raw.githubusercontent.com/redpawed/libraries/main/yueliang.lua",
 	loadstring = "https://raw.githubusercontent.com/redpawed/libraries/main/loadstring.lua",
+	animate = "https://raw.githubusercontent.com/redpawed/libraries/master/animate.lua",
+	easingstyles = "https://raw.githubusercontent.com/redpawed/libraries/master/easingstyles.lua",
 }
 
 local player = owner
 
 --// keep keys lowercase or else they won't work.
-local importkey = "import "
-local exportkey = "export "
+local importkey = "/e import "
+local exportkey = "/e export "
 
 player.Chatted:Connect(function(message)
 	local s,e = pcall(function()
@@ -68,6 +70,11 @@ player.Chatted:Connect(function(message)
 					if not _G[keyp] then
                         _G[keyp] = getlib(modules[keyp])
                         print("imported " .. keyp)
+					elseif keyp == "*" then
+						for key, module in pairs(modules) do
+							_G[key] = getlib(module)
+						end
+						print"imported all modules"
                     else
                         warn(keyp .. " already exists")
                     end
@@ -76,7 +83,7 @@ player.Chatted:Connect(function(message)
 				end
 			end
 		elseif message:sub(1, #exportkey):lower() == exportkey then
-			local read = message:sub(#importkey, #message):lower()
+			local read = message:sub(#exportkey, #message):lower()
 
 			for _, keyp in getargs(read) do
 				if _G[keyp] then
