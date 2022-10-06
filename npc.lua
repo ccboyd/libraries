@@ -54,7 +54,7 @@ function npclib.fetch (info, rigtype, parent)
 	local description
 	local character
 	local name
-	
+
 	pcall(function()
 		name = players:GetNameFromUserIdAsync(info)
 	end)
@@ -83,6 +83,29 @@ function npclib.fetch (info, rigtype, parent)
 	end
 
 	return character
+end
+
+function npclib.islooking (npc, target)
+	local looking = false
+	
+	local look = npc.Head.CFrame.LookVector
+	local difference = (target.Head.Position - npc.Head.Position).Unit
+	
+	local dot = look:Dot(difference)
+	
+	if dot > 0.5 then
+		looking = true
+	end
+	
+	return looking
+end
+
+function npclib.setnetworkowner (npc, player)
+	for _, basepart in pairs(npc:GetDescendants()) do
+		if basepart:IsA"BasePart" and not basepart.Anchored then
+			basepart:SetNetworkOwner(player)
+		end
+	end
 end
 
 return npclib
