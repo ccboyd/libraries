@@ -65,7 +65,6 @@ local modules = {
 	yueliang = "https://raw.githubusercontent.com/redpawed/libraries/main/yueliang.lua",
 	loadstring = "https://raw.githubusercontent.com/redpawed/libraries/main/loadstring.lua",
 	animate = "https://raw.githubusercontent.com/redpawed/libraries/master/animate.lua",
-	easingstyles = "https://raw.githubusercontent.com/redpawed/libraries/master/easingstyles.lua",
 }
 
 local player = owner
