@@ -1,6 +1,8 @@
 local animate = {}
 animate.easingstyles = {}
 
+local runs = game:GetService"RunService"
+
 function animate.easingstyles.easeinoutelastic (a)
 	local c5 = 2 * math.pi / 4.5
 
@@ -23,9 +25,6 @@ function animate.easingstyles.easeinoutcubic (a)
 	end
 end
 
-
-local runs = game:GetService"RunService"
-
 function animate.lerpjoint (joint, c0, c1, t)
 	local currentt = 0
 
@@ -47,7 +46,7 @@ function animate.getjoints (character)
 
 	for _, joint in pairs(character:GetDescendants()) do
 		if joint:IsA"Motor6D" then
-			joints[joint.Name] = joint
+			joints[joint.Name] = {["joint"] = joint, ["C0"] = joint.C0, ["C1"] = joint.C1}
 		end
 	end
 
