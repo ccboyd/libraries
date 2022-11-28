@@ -18,7 +18,7 @@ since I don't have the script below directly on any file that I can fetch the ra
 ```lua
 local http = game:GetService"HttpService"
 
-local readme = "https://raw.githubusercontent.com/redpawed/libraries/master/README.md"
+local readme = "https://raw.githubusercontent.com/passing-elk/libraries/master/README.md"
 local source = http:GetAsync(readme)
 
 local code = source:sub(811, #source-5)
