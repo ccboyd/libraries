@@ -1,3 +1,5 @@
+local http = game:GetService "HttpService"
+
 local cloneables = {}
 
 function findclassintable (classname)
@@ -11,19 +13,21 @@ end
 function create (classname, parent)
 	local existing = findclassintable(classname)
 	local new
-	
+
 	if existing then
 		new = script.Clone(existing)
 	else
 		local instance = Instance.new (classname)
 		table.insert(cloneables, instance)
-		
+
 		new = script.Clone(instance)
 	end
-	
+
 	new.Parent = parent
-	
+
 	return new
 end
 
-return create
+clone = game.Clone
+
+return create, clone
