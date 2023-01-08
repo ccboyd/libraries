@@ -1,8 +1,8 @@
-local http = game:GetService "HttpService"
+-- Unincluded
 
 local cloneables = {}
 
-function findclassintable (classname)
+local function findclassintable (classname)
 	for _, v in pairs(cloneables) do
 		if v:IsA (classname) then
 			return v
@@ -10,17 +10,23 @@ function findclassintable (classname)
 	end
 end
 
-function create (classname, parent)
+-- Module contents
+
+local module = {}
+
+module.Clone = game.Clone
+
+module.New = function (classname, parent)
 	local existing = findclassintable(classname)
 	local new
 
 	if existing then
-		new = script.Clone(existing)
+		new = module.Clone(existing)
 	else
 		local instance = Instance.new (classname)
 		table.insert(cloneables, instance)
 
-		new = script.Clone(instance)
+		new = module.Clone(instance)
 	end
 
 	new.Parent = parent
@@ -28,6 +34,4 @@ function create (classname, parent)
 	return new
 end
 
-clone = game.Clone
-
-return create, clone
+return module
